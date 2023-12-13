@@ -1,5 +1,5 @@
 ### README sample (프로젝트 리드미 사용 방법)
-# 프로젝트 이름
+# ShoppingMall
 
 <p align="center">
   <br>
