@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<meta charset="EUC-KR">
+	<title>Main Page</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+	<style>
+		h1{
+			display: flex;
+			justify-content: start;
+			
+			
+		}
+		
+		.list {
+			display: flex;
+			justify-content: end;
+			margin: 5px;
+			gap: 12px;
+			
+			
+		}
+		
+		.list a {
+			color: black;
+			display: inline-block;
+   			margin: 0 10px;
+   			text-decoration: none;
+   			
+		}
+		
+		.list a:hover{
+
+			color: #1fdfdf;
+			
+		}
+		
+		p {
+			background-color: antiquewhite;
+		}
+		
+	</style>
+</head>
+
+<body>
+	<h1>Main Page</h1>
+	<div>
+		<div class="list">
+	  <a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+	  <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+      <a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+      <a sec:authorize="isAuthenticated()" "hasRole("'USER','ADMIN'")" th:href="@{/list}">리스트</a>
+      <a sec:authorize="hasRole('ADMIN')" th:href="@{/product/new}">상품등록</a>
+      <!-- 상품 수정하기 버튼 관리자만 볼 수 있게 해줌-->
+      
+	  
+	  
+	    <div th:if="${#authorization.expression('isAuthenticated()')}">
+	    	<p th:text="${#authentication.name} + '님'"></p>
+	    </div>
+		</div>
+	</div>
+	
+	
+</body>
+
+</html>
+
+<!-- 
+	sec:authorize = 작성할 메서드
+	작성할 메서드 리스트
+	
+	1. hasRole("Role_ADMIN"): ROLE_ADMIN 권한을 가진 사용자한테만 보이는 컨텐츠 또는 div 버튼
+	
+	   hasRole(" 'ROLE_ADMIN', 'ROLE_USER' "): 로그인한 회원과 관리자만 볼 수 있게 하고자 할 경우 = 비회원은 못 보게
+	
+	2. isAuthenticated(): 로그인한 사용자한테만 보이는 내용, 만약 인증이 되지 않은 사용자라면 앞에 ! 붙혀주면 됨
+	
+	   isAnonymous(): 로그인하지 않은 사용자한테만 보이는 내용
+	   
+	   permitAll(): 모든 사용자에게 접근을 허용하고 내용을 표시할 수 있도록 함
+	   
+	   denyAll(): 모든 사용자에게 접근을 거부하고 내용을 숨김
+	   
+	3. hasIpAddress('가능한IP주소'): 요청이 특정 IP 주소에서 온 경우만 내용을 보여줌
+	
+ -->

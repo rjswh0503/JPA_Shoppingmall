@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+	<head>
+		<meta charset="EUC-KR">
+		<title>ProductList</title>
+		
+		<style>
+			
+		h1,a {
+			
+		text-align: center;
+		
+		
+		}
+			
+	
+		.item-container {
+			max-width: 900px;
+			margin : 0 auto;
+			display: flex;
+			justify-content: center;
+		}
+		
+		.item {
+			float: left;
+			width: 200px;
+			border: 1px solid #ccc;
+			padding: 10px;
+			text-align: center;
+			margin: 10px;
+			
+			
+		}
+		.item img {
+			width: 100%;
+			height: auto;
+		}
+		
+		img{
+			width: 300px;
+			height: 300px;
+		}
+		.button1{
+			margin : 0 auto;
+			display: flex;
+			justify-content: center;
+		}
+		
+	</style>
+	<script>
+			function likeProduct(productId){
+				alert("좋아요를 누르셨습니다." + productId);
+			}
+		</script>
+		
+	</head>
+	
+	<body>
+		<h1>Product List</h1>
+		<a th:href="@{/product/new}" class="button1">상품 추가하기</a><br>
+		<a th:href="@{/}" class="buttton1">메인페이지로 이동</a><br>
+		<div class="item-container" th:each="product : ${products}">
+			<div class="item">
+			<img th:src="@{${product.getImgPath()}}"/><br>
+			<label>제품명: </label>
+			<span th:text="${product.name}"></span><br>
+			
+			<label>상품 가격: </label>
+			<span th:text="${product.price}"></span><br>
+			<!--<button th:if="${#Authorization.expression('isAuthenticated()')}
+				th:onclick="'LikeProduct('+ ${product.id} + ') '
+				type="button">좋아요</button>
+			<span th:text="${product.Likes}"></span>likes-->
+			
+			<a th:href="@{/product/detail/{id}(id=${product.id})}">상세보기</a><br>
+			
+			<!-- 장바구니에 상품을 담고자 한다면 장바구니에 담기 버튼 생성해서 담아주기 -->
+			<form th:action="@{cart/add}" method="post">
+				<input type="hidden" name="productId" th:value="${product.id}"/>
+				<button type="submit">장바구니 담기</button>
+			</form>
+			
+			</div>
+		</div>
+		
+		
+	</body>
+
+</html>
